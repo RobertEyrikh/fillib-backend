@@ -23,9 +23,10 @@ class authController {
       const { username, email, password } = req.body;
       const candidate = await User.findOne({ email });
       if (candidate) {
+        let errors = "already registered"
         return res
           .status(400)
-          .json({ message: "User with this email is already registered" });
+          .json({ message: "User with this email is already registered", errors });
       }
       const hashPassword = bcrypt.hashSync(password, 7);
       const userRole = await Role.findOne({ value: "USER" });
@@ -47,17 +48,17 @@ class authController {
       const { email, password } = req.body;
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: `user ${email} not found` });
+        return res.status(400).json({ message: "Wrong login or password" });
       }
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
-        return res.status(400).json({ message: "invalid password" });
+        return res.status(400).json({ message: "Wrong login or password" });
       }
       const token = generateAccessToken(user._id, user.roles);
       return res.json({ token });
     } catch (e) {
       console.log(e);
-      res.status(400).json({ message: "Login error" });
+      res.status(400).json({ message: "Wrong login or password" });
     }
   }
   async getUsers(req, res) {
