@@ -14,9 +14,9 @@ class filmController {
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: "Movie adding error", errors });
       }
-      const { id, rate, date, description } = req.body;
+      const { filmId, rate, date, description } = req.body;
       const filmToAdd = new ViewedFilms({
-        id,
+        filmId,
         rate,
         date,
         description,

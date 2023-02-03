@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const ViewedFilms = new Schema({
-  id: {
+  filmId: {
     type: Number,
     required: true,
     unique: true,

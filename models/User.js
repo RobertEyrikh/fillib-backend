@@ -17,7 +17,7 @@ const User = new Schema({
   viewedFilms: [
     {
       type: {
-        id: {
+        filmId: {
           type: Number,
         },
         rate: {
