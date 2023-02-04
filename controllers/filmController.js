@@ -5,11 +5,11 @@ import User from "../models/User.js";
 class filmController {
   async addFilmToViewed(req, res) {
     try {
-      User.on('index', function(err) {
-        if (err) {
-          console.error(err)
-        }
-      })
+      // User.on("index", function (err) {
+      //   if (err) {
+      //     console.error(err);
+      //   }
+      // });
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: "Movie adding error", errors });
@@ -23,7 +23,27 @@ class filmController {
       });
       let user = await User.findOneAndUpdate(
         { _id: req.userId },
-        { $push: { viewedFilms: filmToAdd } }
+        { $push: { viewedFilms: filmToAdd } },
+        { new: true }
+      );
+      return res.json(user);
+    } catch (e) {
+      res.status(400).json({ message: "Movie adding error" });
+    }
+  }
+  async deleteFilmFromViewed(req, res) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res
+          .status(400)
+          .json({ message: "Movie deleting error", errors });
+      }
+      const { filmId } = req.body;
+      let user = await User.findOneAndUpdate(
+        { _id: req.userId },
+        { $pull: { viewedFilms: { filmId } } },
+        { new: true }
       );
       return res.json(user);
     } catch (e) {
