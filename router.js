@@ -30,5 +30,11 @@ router.post('/changeFilmInViewed', authMiddleware, [
   check('date', 'You must enter the viewing date').isDate(),
   check('description', 'Minimum 4 characters maximum 100').optional().isLength({ max: 100 }),
 ], filmController.changeFilmInViewed)
+router.post('/addFilmToWatchlist', authMiddleware, [
+  check('filmId', 'Empty id').notEmpty().isNumeric(),
+], filmController.addFilmToWatchlist)
+router.post('/deleteFilmFromWatchlist', authMiddleware, [
+  check('filmId', 'Empty id').notEmpty().isNumeric(),
+], filmController.deleteFilmFromWatchlist)
 
 export default router

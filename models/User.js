@@ -33,6 +33,17 @@ const User = new Schema({
       ref: "ViewedFilms",
     },
   ],
+  watchlistFilms: [
+    {
+      type: {
+        filmId: {
+          type: Number,
+          required: true,
+          unique: true,
+        },
+      },
+    },
+  ],
   roles: [{ type: String, ref: "Role" }],
 });
 
